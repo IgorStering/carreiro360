@@ -126,9 +126,9 @@
     /* ── ABOUT ── */
     .about { background: var(--navy2); }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .about-img-wrap { position: relative; }
+    .about-img-wrap { position: relative; display: flex; justify-content: center; }
     .about-img-wrap img {
-      width: 100%; border-radius: var(--radius);
+      width: 25%; max-width: 160px; border-radius: var(--radius);
       filter: grayscale(20%);
     }
     .about-img-wrap::after {
