@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hipnose 360° — Prof. Antonio Carreiro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #080C18;
+      --navy2:  #0F1528;
+      --navy3:  #161D35;
+      --gold:   #C9A84C;
+      --gold2:  #E8C96A;
+      --white:  #F5F5F0;
+      --gray:   #9AA0B2;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 6%;
+      background: rgba(8,12,24,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,.15);
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); letter-spacing: .5px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--navy); font-weight: 600; font-size: .88rem;
+      padding: 10px 22px; border-radius: 50px; text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 6% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 70% 50%, rgba(201,168,76,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 640px; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.3);
+      color: var(--gold); font-size: .8rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 50px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.1rem; color: var(--gray); line-height: 1.75;
+      margin-bottom: 40px; max-width: 520px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--navy); font-weight: 700; font-size: 1rem;
+      padding: 16px 36px; border-radius: 50px; text-decoration: none; border: none; cursor: pointer;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(201,168,76,.35);
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,.45); }
+    .btn-ghost {
+      background: transparent; color: var(--white); font-weight: 600; font-size: 1rem;
+      padding: 16px 36px; border-radius: 50px; text-decoration: none; border: 1px solid rgba(255,255,255,.2);
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--navy2);
+      border-top: 1px solid rgba(201,168,76,.1);
+      border-bottom: 1px solid rgba(201,168,76,.1);
+      padding: 48px 6%;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900; color: var(--gold); line-height: 1;
+    }
+    .stat-label { color: var(--gray); font-size: .85rem; margin-top: 6px; }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 100px 6%; }
+    .section-tag {
+      display: inline-block; color: var(--gold); font-size: .75rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--gray); font-size: 1.05rem; max-width: 560px; line-height: 1.75; }
+
+    /* ── ABOUT ── */
+    .about { background: var(--navy2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img {
+      width: 100%; border-radius: var(--radius);
+      filter: grayscale(20%);
+    }
+    .about-img-wrap::after {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(201,168,76,.25);
+      pointer-events: none;
+    }
+    .about-accent {
+      position: absolute; bottom: -24px; right: -24px;
+      background: var(--gold); color: var(--navy);
+      padding: 20px 28px; border-radius: var(--radius);
+      font-weight: 700; font-size: .9rem; text-align: center;
+      box-shadow: 0 8px 32px rgba(201,168,76,.4);
+    }
+    .about-accent span { display: block; font-size: 2rem; font-weight: 900; font-family: 'Playfair Display', serif; }
+    .credentials { margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+    .credential { display: flex; align-items: center; gap: 12px; }
+    .credential-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(201,168,76,.12); display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1rem; flex-shrink: 0;
+    }
+    .credential-text { color: var(--gray); font-size: .9rem; }
+    .credential-text strong { color: var(--white); font-weight: 600; }
+
+    /* ── METHODOLOGY ── */
+    .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .method-card {
+      background: var(--navy2); border: 1px solid rgba(201,168,76,.1);
+      border-radius: var(--radius); padding: 36px 28px;
+      transition: border-color .3s, transform .3s;
+    }
+    .method-card:hover { border-color: rgba(201,168,76,.4); transform: translateY(-4px); }
+    .method-letter {
+      font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900;
+      color: rgba(201,168,76,.2); line-height: 1; margin-bottom: 16px;
+    }
+    .method-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .method-card p { color: var(--gray); font-size: .9rem; line-height: 1.7; }
+
+    /* ── COURSES ── */
+    .courses-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 56px; }
+    .course-card {
+      background: var(--navy2); border-radius: 20px;
+      border: 1px solid rgba(201,168,76,.12); overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .course-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+    .course-card.featured { border-color: rgba(201,168,76,.45); }
+    .course-header {
+      background: var(--navy3); padding: 32px 36px 28px;
+      border-bottom: 1px solid rgba(201,168,76,.1);
+      position: relative;
+    }
+    .course-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--gold); color: var(--navy); font-size: .72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 50px; letter-spacing: .5px;
+    }
+    .course-icon { font-size: 2rem; margin-bottom: 12px; }
+    .course-header h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+    .course-header p { color: var(--gray); font-size: .9rem; }
+    .course-body { padding: 32px 36px; }
+    .course-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .course-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .9rem; color: var(--gray); }
+    .course-features li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .course-price { margin-bottom: 24px; }
+    .price-main { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--gold); }
+    .price-installment { color: var(--gray); font-size: .85rem; margin-top: 2px; }
+    .btn-course {
+      display: block; text-align: center; background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: .95rem; padding: 14px; border-radius: 50px;
+      text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .btn-course:hover { background: var(--gold2); transform: translateY(-1px); }
+    .btn-course.outline {
+      background: transparent; color: var(--gold); border: 2px solid var(--gold);
+    }
+    .btn-course.outline:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--navy2); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .testimonial-card {
+      background: var(--navy3); border: 1px solid rgba(201,168,76,.08);
+      border-radius: var(--radius); padding: 32px 28px;
+    }
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testimonial-card p { color: var(--gray); font-size: .9rem; line-height: 1.75; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--navy3));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .95rem; color: var(--navy); flex-shrink: 0;
+    }
+    .author-name { font-weight: 600; font-size: .9rem; }
+    .author-role { color: var(--gray); font-size: .78rem; }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 56px; max-width: 760px; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: var(--navy2); border: 1px solid rgba(201,168,76,.1);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; color: var(--white);
+      font-family: 'Inter', sans-serif; font-size: .95rem; font-weight: 600;
+      padding: 22px 28px; text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    .faq-q .faq-icon { color: var(--gold); font-size: 1.2rem; transition: transform .3s; flex-shrink: 0; }
+    .faq-a { padding: 0 28px; max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; }
+    .faq-a.open { max-height: 200px; padding: 0 28px 22px; }
+    .faq-a p { color: var(--gray); font-size: .9rem; line-height: 1.75; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy2) 0%, var(--navy3) 100%);
+      border-top: 1px solid rgba(201,168,76,.15);
+      border-bottom: 1px solid rgba(201,168,76,.15);
+      text-align: center; padding: 100px 6%;
+    }
+    .cta-section .section-title { margin-bottom: 20px; }
+    .cta-section p { color: var(--gray); font-size: 1.05rem; max-width: 500px; margin: 0 auto 40px; line-height: 1.75; }
+    .whatsapp-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #25D366; color: #fff; font-weight: 700; font-size: 1rem;
+      padding: 16px 40px; border-radius: 50px; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(37,211,102,.35);
+      transition: background .2s, transform .2s;
+    }
+    .whatsapp-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); border-top: 1px solid rgba(201,168,76,.1);
+      padding: 48px 6%; text-align: center;
+    }
+    footer .logo { display: block; margin-bottom: 16px; }
+    footer p { color: var(--gray); font-size: .85rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-accent { bottom: -16px; right: -8px; }
+      .method-grid { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 36px 5%; }
+      section { padding: 72px 5%; }
+      nav { padding: 16px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="logo">Hipnose 360°</span>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#metodologia">Metodologia</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="https://wa.me/5571993458003" class="nav-cta" target="_blank">Falar no WhatsApp</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">⬡ Método TTS — Trance · Terapia · Semiótica</div>
+      <h1>Domine a arte da <span>Hipnose Clínica</span> com quem mais entende do assunto</h1>
+      <p>Formação acadêmica completa com o Prof. Dr. Antonio Carreiro — 50 anos de experiência, mais de 50 eventos internacionais e uma metodologia única que integra psicologia, psicanálise e neurociência.</p>
+      <div class="hero-btns">
+        <a href="#cursos" class="btn-primary">Ver Cursos Disponíveis</a>
+        <a href="#sobre" class="btn-ghost">Conhecer o Prof. Carreiro</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Anos de experiência</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Eventos internacionais</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">22</div>
+      <div class="stat-label">Videoaulas no curso online</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">80h</div>
+      <div class="stat-label">Horas de estudo online</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="sobre">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80" alt="Prof. Antonio Carreiro" />
+        <div class="about-accent">
+          <span>PhD</span>
+          Doutor em<br/>Hipnose Clínica
+        </div>
+      </div>
+      <div>
+        <span class="section-tag">Quem é o Professor</span>
+        <h2 class="section-title">Prof. Dr.<br/>Antonio Carreiro</h2>
+        <p class="section-sub">Referência nacional e internacional em hipnose clínica, o Professor Carreiro desenvolveu o Método TTS — uma abordagem científica e humanista que transforma profissionais de saúde em especialistas reconhecidos.</p>
+        <div class="credentials">
+          <div class="credential">
+            <div class="credential-icon">🎓</div>
+            <div class="credential-text"><strong>Doutor e Pós-graduado</strong> — Especialização em Paris, França</div>
+          </div>
+          <div class="credential">
+            <div class="credential-icon">🌍</div>
+            <div class="credential-text"><strong>+50 eventos internacionais</strong> — Palestras em múltiplos países</div>
+          </div>
+          <div class="credential">
+            <div class="credential-icon">📚</div>
+            <div class="credential-text"><strong>Diversas publicações</strong> — Livros e artigos científicos</div>
+          </div>
+          <div class="credential">
+            <div class="credential-icon">🏫</div>
+            <div class="credential-text"><strong>50 anos de magistério</strong> — Formando especialistas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section id="metodologia">
+    <span class="section-tag">Metodologia Exclusiva</span>
+    <h2 class="section-title">O Método TTS</h2>
+    <p class="section-sub">Uma abordagem científica que integra três pilares fundamentais para uma prática hipnoterápica completa e eficaz.</p>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="method-letter">T</div>
+        <h3>Trance</h3>
+        <p>Técnicas avançadas de indução e aprofundamento do estado hipnótico, com base neurocientífica e protocolos clínicos validados.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-letter">T</div>
+        <h3>Terapia</h3>
+        <p>Integração com psicologia e psicanálise para acesso ao inconsciente, resolução de conflitos internos e transformação duradoura.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-letter">S</div>
+        <h3>Semiótica</h3>
+        <p>Comunicação simbólica sem sugestão explícita — uma linguagem que dialoga diretamente com a mente inconsciente do paciente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="cursos" style="background: var(--navy2); border-top:1px solid rgba(201,168,76,.08); border-bottom:1px solid rgba(201,168,76,.08);">
+    <span class="section-tag">Formações Disponíveis</span>
+    <h2 class="section-title">Escolha seu caminho</h2>
+    <p class="section-sub">Duas modalidades de formação, mesmo nível de excelência. Escolha o formato que melhor se adapta à sua rotina.</p>
+    <div class="courses-grid">
+
+      <div class="course-card featured">
+        <div class="course-header">
+          <div class="course-badge">Mais Procurado</div>
+          <div class="course-icon">🏛️</div>
+          <h3>Curso Presencial</h3>
+          <p>Fins de semana intensivos em Salvador, Bahia — julho e dezembro de 2026</p>
+        </div>
+        <div class="course-body">
+          <ul class="course-features">
+            <li>Imersão presencial com o Prof. Carreiro</li>
+            <li>Material didático impresso incluso</li>
+            <li>Prática de transe em grupo diariamente</li>
+            <li>Certificado de Especialista emitido</li>
+            <li>Acesso ao grupo exclusivo de alunos</li>
+            <li>Supervisão de casos clínicos</li>
+          </ul>
+          <div class="course-price">
+            <div class="price-main">R$ 1.985</div>
+            <div class="price-installment">ou 12x de R$ 165,48 · Desconto via WhatsApp</div>
+          </div>
+          <a href="https://wa.me/5571993458003" class="btn-course" target="_blank">Quero me inscrever</a>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-header">
+          <div class="course-icon">💻</div>
+          <h3>Curso Online</h3>
+          <p>Aprenda no seu ritmo, de qualquer lugar do mundo, com acesso imediato</p>
+        </div>
+        <div class="course-body">
+          <ul class="course-features">
+            <li>22 videoaulas completas</li>
+            <li>PDFs e materiais de apoio</li>
+            <li>Áudios guiados de auto-hipnose</li>
+            <li>Mentoria diária em grupo</li>
+            <li>~80 horas de estudo total</li>
+            <li>Acesso vitalício ao conteúdo</li>
+          </ul>
+          <div class="course-price">
+            <div class="price-main">R$ 819</div>
+            <div class="price-installment">ou 12x de R$ 68,26 · Acesso imediato</div>
+          </div>
+          <a href="https://wa.me/5571993458003" class="btn-course outline" target="_blank">Quero começar agora</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="depoimentos">
+    <span class="section-tag">Depoimentos</span>
+    <h2 class="section-title">O que dizem nossos alunos</h2>
+    <p class="section-sub">Profissionais de todo o Brasil que transformaram suas carreiras com o Método TTS.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"O curso presencial mudou completamente minha visão sobre hipnose clínica. O Prof. Carreiro tem um domínio único do assunto — aprendi em um fim de semana o que levaria anos para aprender sozinho."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MB</div>
+          <div>
+            <div class="author-name">Mariana B.</div>
+            <div class="author-role">Psicóloga — São Paulo</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Já fiz vários cursos de hipnose, mas o Método TTS é diferente. A semiótica aplicada à hipnose é revolucionária. Hoje atendo casos que antes me pareciam impossíveis."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">RF</div>
+          <div>
+            <div class="author-name">Ricardo F.</div>
+            <div class="author-role">Terapeuta — Recife</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Fiz o curso online e superou minhas expectativas. Os áudios guiados são incríveis e a mentoria diária faz toda a diferença. Recomendo para qualquer profissional de saúde."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">CL</div>
+          <div>
+            <div class="author-name">Carla L.</div>
+            <div class="author-role">Enfermeira — Fortaleza</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <span class="section-tag">Dúvidas Frequentes</span>
+    <h2 class="section-title">Perguntas frequentes</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Preciso ter formação em saúde para fazer o curso?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Não necessariamente. O curso é aberto para profissionais de diversas áreas, incluindo psicólogos, médicos, enfermeiros, fisioterapeutas e também pessoas interessadas em auto-hipnose e desenvolvimento pessoal.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          O certificado tem validade reconhecida?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Sim. O certificado é emitido pelo Prof. Dr. Antonio Carreiro e reconhecido internacionalmente. A formação segue padrões acadêmicos rigorosos e está alinhada com as principais associações de hipnose clínica.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Como funciona a mentoria diária do curso online?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>A mentoria acontece em grupo via WhatsApp e lives periódicas. Você pode tirar dúvidas, compartilhar casos e receber feedback do professor e de outros alunos. O suporte é contínuo durante toda a sua formação.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Posso parcelar no cartão de crédito?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Sim. Aceitamos parcelamento em até 12x no cartão. Condições especiais de desconto estão disponíveis para pagamento à vista — entre em contato via WhatsApp para saber mais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <span class="section-tag">Pronto para começar?</span>
+    <h2 class="section-title">Dê o primeiro passo rumo à especialização</h2>
+    <p>Tire suas dúvidas, saiba as datas disponíveis e garanta sua vaga. Nossa equipe está pronta para te atender agora.</p>
+    <a href="https://wa.me/5571993458003" class="whatsapp-btn" target="_blank">
+      <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com a equipe agora
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="logo">Hipnose 360°</span>
+    <p>© 2026 Prof. Dr. Antonio Carreiro — Todos os direitos reservados</p>
+    <p style="margin-top:8px;">Salvador, Bahia · +55 71 99345-8003</p>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const answer = btn.nextElementSibling;
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.style.transform = ''; });
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.textContent = '×';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // Smooth reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.method-card, .course-card, .testimonial-card, .stat').forEach(el => {
+      el.style.opacity = 0; el.style.transform = 'translateY(24px)'; el.style.transition = 'opacity .6s ease, transform .6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
