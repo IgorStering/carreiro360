@@ -51,10 +51,11 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: flex; align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
       padding: 120px 6% 80px;
       position: relative;
       overflow: hidden;
+      gap: 48px;
     }
     .hero::before {
       content: '';
@@ -63,6 +64,30 @@
       pointer-events: none;
     }
     .hero-content { max-width: 640px; position: relative; z-index: 1; }
+    .hero-image {
+      position: relative; z-index: 1;
+      height: 520px; border-radius: 24px; overflow: hidden;
+    }
+    .hero-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.75) saturate(.8);
+      border-radius: 24px;
+    }
+    .hero-image::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(8,12,24,.5) 0%, transparent 60%),
+                  linear-gradient(to top, rgba(8,12,24,.7) 0%, transparent 50%);
+      border-radius: 24px;
+    }
+    .hero-image-label {
+      position: absolute; bottom: 24px; left: 24px; z-index: 2;
+      background: rgba(8,12,24,.75); backdrop-filter: blur(8px);
+      border: 1px solid rgba(201,168,76,.25); border-radius: 12px;
+      padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+    }
+    .hero-image-label span { font-size: .85rem; color: var(--white); font-weight: 500; }
+    .hero-image-label strong { color: var(--gold); }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.3);
@@ -275,6 +300,8 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { display: none; }
       .stats { grid-template-columns: repeat(2, 1fr); }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .about-accent { bottom: -16px; right: -8px; }
@@ -314,6 +341,12 @@
       <div class="hero-btns">
         <a href="#cursos" class="btn-primary">Ver Cursos Disponíveis</a>
         <a href="#sobre" class="btn-ghost">Conhecer o Prof. Carreiro</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=900&q=80" alt="Terapia e mente" />
+      <div class="hero-image-label">
+        <span>🧠 <strong>Método TTS</strong> — Ciência aplicada à mente</span>
       </div>
     </div>
   </section>
